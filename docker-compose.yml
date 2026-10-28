@@ -5,13 +5,28 @@ services:
     image: postgres:15
     container_name: study_db
     environment:
-      POSTGRES_USER: student
-      POSTGRES_PASSWORD: student_pass
+      POSTGRES_USER: den
+      POSTGRES_PASSWORD: 123456
       POSTGRES_DB: study_db
+      POSTGRES_HOST: postgres
     ports:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
+    networks:
+      - study_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: study_cache
+    ports:
+      - "6379:6379"
+    networks:
+      - study_net
 
 volumes:
   pg_data:
+
+networks:
+  study_net:
+    driver: bridge
