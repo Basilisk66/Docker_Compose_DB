@@ -2,16 +2,19 @@ version: "4.9"
 
 services:
   postgres:
-    image: postgres:15
+    image: postgres:16-alpine
     container_name: study_db
     environment:
-      POSTGRES_USER: student
-      POSTGRES_PASSWORD: student_pass
+      POSTGRES_USER: den
+      POSTGRES_PASSWORD: 525266
       POSTGRES_DB: study_db
+      POSTGRES_MAX_CONNECTIONS: "200"
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
+    command: >
+      postgres -c shared_buffers=256MB -c work_mem=16MB
 
 volumes:
   pg_data:
