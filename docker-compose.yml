@@ -9,12 +9,27 @@ services:
       POSTGRES_PASSWORD: 525266
       POSTGRES_DB: study_db
       POSTGRES_MAX_CONNECTIONS: "200"
+      POSTGRES_HOST: postgres
     ports:
       - "5433:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     command: >
-      postgres -c shared_buffers=256MB -c work_mem=16MB
+      postgres -c shared_buffers=256MB -c work_mem=8MB
+    networks:
+      - study_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: study_cache
+    ports:
+      - "6379:6379"
+    networks:
+      - study_net
 
 volumes:
   pg_data:
+
+networks:
+  study_net:
+    driver: bridge
